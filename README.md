@@ -6,6 +6,10 @@ axis it breaks, and the runtime is computed from words, pauses and budgeted laug
 
 Static site — no build step, no dependencies. Open `index.html` directly, or serve the folder.
 
+> **No published URL.** GitHub Pages cannot publish from a private repo on this account's plan, and
+> even a paid plan would only give a *publicly reachable* page. The repo stayed private and nothing was
+> published — see [PUBLISHING.md](PUBLISHING.md) for the options and the one command that enables it.
+
 ## Pages
 
 | Page | What it is |

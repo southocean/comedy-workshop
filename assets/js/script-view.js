@@ -258,26 +258,39 @@
   /* ================= compare ================= */
 
   function renderCompare() {
-    var a = state.version, b = state.compareWith;
-    var d = CW.diffVersions(a, b);
+    // Always orient the diff chronologically: older version on the left, newer
+    // on the right, regardless of which one is currently selected. Otherwise
+    // "added" and "cut" invert whenever you compare a new draft against an old
+    // one, which is the normal direction of travel.
+    var order = state.script.versions;
+    var iCur = order.indexOf(state.version), iOth = order.indexOf(state.compareWith);
+    var older = iCur <= iOth ? state.version : state.compareWith;
+    var newer = iCur <= iOth ? state.compareWith : state.version;
+
+    // diffVersions(A, B): "left" is A's perspective, "right" is B's.
+    var d = CW.diffVersions(older, newer);
     var key = '<div class="diff-key">' +
-      '<span><i style="background:var(--ok)"></i>added</span>' +
+      '<span><i style="background:var(--ok)"></i>added in ' + esc(newer.label.split(' ')[0]) + '</span>' +
       '<span><i style="background:var(--danger)"></i>cut</span>' +
       '<span><i style="background:var(--warn)"></i>rewritten</span></div>';
 
-    var ta = CW.timeVersion(a, state.opts), tb = CW.timeVersion(b, state.opts);
+    var tOld = CW.timeVersion(older, state.opts), tNew = CW.timeVersion(newer, state.opts);
+    var delta = tNew.total - tOld.total;
+
     return '<div class="compare">' +
-      '<div><div class="page"><div class="compare__head"><b>' + esc(a.label) + '</b>' +
-        '<span class="pill">' + mmss(ta.total) + '</span><span class="spacer"></span>' + key + '</div>' +
-        renderVersion(a, { suffix: '-L', diffClass: function (bt) {
+      '<div><div class="page"><div class="compare__head">' +
+        '<b>' + esc(older.label) + '</b><span class="pill">' + mmss(tOld.total) + '</span>' +
+        '<span class="faint small">older</span></div>' +
+        renderVersion(older, { suffix: '-L', diffClass: function (bt) {
           var s = d.statusFor(bt.id, 'left');
           return s === 'del' ? 'd-del' : s === 'mod' ? 'd-mod' : '';
         }}) + '</div></div>' +
-      '<div><div class="page"><div class="compare__head"><b>' + esc(b.label) + '</b>' +
-        '<span class="pill">' + mmss(tb.total) + '</span><span class="spacer"></span>' +
-        '<span class="faint small">' + (tb.total > ta.total ? '+' : '') + mmss(Math.abs(tb.total - ta.total)) +
-        (tb.total > ta.total ? ' longer' : ' shorter') + '</span></div>' +
-        renderVersion(b, { suffix: '-R', diffClass: function (bt) {
+      '<div><div class="page"><div class="compare__head">' +
+        '<b>' + esc(newer.label) + '</b><span class="pill">' + mmss(tNew.total) + '</span>' +
+        '<span class="faint small">' + (delta >= 0 ? '+' : '-') + mmss(Math.abs(delta)) +
+        (delta >= 0 ? ' longer' : ' shorter') + '</span>' +
+        '<span class="spacer"></span>' + key + '</div>' +
+        renderVersion(newer, { suffix: '-R', diffClass: function (bt) {
           var s = d.statusFor(bt.id, 'right');
           return s === 'add' ? 'd-add' : s === 'mod' ? 'd-mod' : '';
         }}) + '</div></div>' +
