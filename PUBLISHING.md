@@ -1,24 +1,40 @@
 # Viewing and publishing this site
 
-## The short version
+## Live URL
 
-**You asked for a private repo with a private published page. GitHub cannot give you both on this
-account, so the repo stayed private and nothing was published.** Details and options below.
+<https://southocean.github.io/comedy-workshop/>
 
-## Right now: just open it
+The repo is **public** and GitHub Pages serves `main` from the repository root.
+Every push to `main` redeploys, usually within a minute.
 
-The site is deliberately dependency-free and uses no `fetch()` and no ES modules, so it works straight
-off the filesystem. Double-click `index.html`, or:
+`.nojekyll` is committed so paths starting with `_` and `.` are served untouched.
+
+## It is public — treat it that way
+
+Every page carries `<meta name="robots" content="noindex, nofollow">`, so the site
+stays out of search results. That makes it undiscoverable, **not private**: anyone
+with the URL can read everything, and so can anyone browsing the repo.
+
+Two consequences worth remembering:
+
+- **Unperformed material is readable.** If a set is still being written and you'd
+  rather it not be quotable before you've done it, don't push it.
+- **Case-study excerpts are published.** `data/case-studies/` quotes other
+  comedians. Keep those excerpts short and credited — the mark-up is the value,
+  not the transcript.
+
+## Working locally
+
+The site is dependency-free and uses no `fetch()` and no ES modules, so it runs
+straight off the filesystem. Double-click `index.html`, or:
 
 ```bash
 start C:\projects\work\comedy-workshop\index.html
 ```
 
-Everything works this way — the viewer, the inspector, compare, the theme toggle. No server needed.
+Everything works this way — the viewer, the inspector, compare, the theme toggle.
 
-## Slightly better: a local server
-
-Only worth it if you want clean URLs or to open it from your phone on the same wifi.
+For clean URLs, or to open it from your phone on the same wifi:
 
 ```bash
 cd C:\projects\work\comedy-workshop && python -m http.server 8731
@@ -26,46 +42,19 @@ cd C:\projects\work\comedy-workshop && python -m http.server 8731
 
 Then <http://127.0.0.1:8731/>.
 
-## Why there is no GitHub Pages URL
+## If you later want it genuinely access-controlled
 
-GitHub Pages was attempted and refused:
+GitHub Pages has no server you control, so there is nowhere to enforce a login —
+any gate written in JavaScript is decoration, because the data has already
+reached the browser. Real enforcement needs a server in front of the files.
 
-```
-422  Your current plan does not support GitHub Pages for this repository.
-```
+The stack for that is written and ready in `../selfhost` (Caddy + Authelia on a
+free Oracle Cloud VM, ~€10/yr for a domain). Because this site loads its data
+through plain `<script src>` tags, putting it behind that gate needs **no changes
+to any page here** — an unauthenticated request for `data/scripts/*.js` simply
+never returns the file. See `selfhost/SETUP.md`.
 
-`southocean` is on the **Free** plan, and Free does not allow Pages to publish from a **private**
-repository at all. The three ways forward, in order of how well they match what you actually asked for:
+## Sharing one script as a document
 
-| Option | Repo | Who can see the site | Cost |
-| --- | --- | --- | --- |
-| **Stay local** (current) | private | only you | free |
-| GitHub Pro | private | **anyone with the URL** | ~$4/mo |
-| Make the repo public | public | anyone, and it's indexable | free |
-| GitHub Enterprise Cloud | private | only people you grant access | enterprise pricing |
-
-The important row is the second one. **Pro does not give you a private page** — it only lets a private
-repo publish a *public* site. Truly access-controlled Pages is an Enterprise Cloud feature. So upgrading
-to Pro would put an unperformed set on a public URL, which is the opposite of what you asked for, and is
-why I did not do it.
-
-I also didn't make the repo public — same reason, and it's not a decision to make on your behalf while
-you're away.
-
-## If you decide you want it published anyway
-
-Once the repo can publish (Pro, or made public), this is the whole thing:
-
-```bash
-gh api -X POST repos/southocean/comedy-workshop/pages -f "source[branch]=main" -f "source[path]=/"
-```
-
-Then the URL is <https://southocean.github.io/comedy-workshop/> and it updates on every push to `main`.
-`.nojekyll` is already committed so the paths work, and every page carries
-`<meta name="robots" content="noindex, nofollow">` so it stays out of search results — obscure, but not
-private. Treat it as public.
-
-## Sharing one script without publishing the site
-
-Cheapest option if you just want to send a set to someone: open the script, hit **Plain text**, and
-print to PDF. That strips every annotation down to a clean rehearsal script.
+Open the script, hit **Plain text**, print to PDF. That strips every annotation
+down to a clean rehearsal script.

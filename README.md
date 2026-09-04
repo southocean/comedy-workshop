@@ -6,9 +6,9 @@ axis it breaks, and the runtime is computed from words, pauses and budgeted laug
 
 Static site — no build step, no dependencies. Open `index.html` directly, or serve the folder.
 
-> **No published URL.** GitHub Pages cannot publish from a private repo on this account's plan, and
-> even a paid plan would only give a *publicly reachable* page. The repo stayed private and nothing was
-> published — see [PUBLISHING.md](PUBLISHING.md) for the options and the one command that enables it.
+> **Live at <https://southocean.github.io/comedy-workshop/>.** The repo is public and the site
+> redeploys on every push to `main`. Every page still carries `noindex`, so it stays out of search
+> results — reachable, but not discoverable. See [PUBLISHING.md](PUBLISHING.md).
 
 ## Pages
 
@@ -115,8 +115,8 @@ Two things in it are flagged in the data and worth a decision before you learn i
 ## Case studies and copyright
 
 Case-study files hold other comedians' copyrighted material. Store only the short beats you're actually
-annotating, always credited. The value is the mark-up, not the transcript. This repo is private; keep it
-that way.
+annotating, always credited. The value is the mark-up, not the transcript — keep excerpts short enough
+that this stays true, because the repo is public.
 
 **Gianmarco Soresi — *Thief of Joy*** (2025, 66 min) is analysed: the shape of the hour, the four handles
 that run its full length, and eight segments marked up beat-by-beat. The full transcript is deliberately
