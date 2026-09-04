@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Workshop - Comedy Workshop</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#127820;</text></svg>">
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/model.js"></script>
+<script src="../data/scripts/kulturnatten-2026.js"></script>
+</head>
+<body>
+<header data-chrome data-page="workshop" data-base="../"></header>
+
+<main class="wrap">
+  <div class="eyebrow">Workshop</div>
+  <h1>Scripts</h1>
+  <p class="lede">Every script is a set of versions. Open one to inspect its beats, or compare two
+  versions side by side to see what a rewrite actually changed.</p>
+  <hr class="rule">
+  <div class="grid grid--2" id="list"></div>
+
+  <h2 style="margin-top:44px">Adding a script</h2>
+  <p class="muted small" style="max-width:70ch">Drop a file in <code>data/scripts/</code> that calls
+  <code>CW.registerScript({...})</code>, then add a <code>&lt;script&gt;</code> tag for it here and in
+  <code>workshop/script.html</code>. Schema and beat roles are documented in
+  <code>assets/js/model.js</code> and in the repo README.</p>
+</main>
+
+<footer data-footer></footer>
+
+<script>
+(function () {
+  var esc = CW.esc, mmss = CW.mmss;
+  var html = CW.allScripts().map(function (s) {
+    var latest = s.versions[s.versions.length - 1];
+    var t = CW.timeVersion(latest, { wpm: 145, laughScale: 1 });
+    var trimmed = CW.timeVersion(latest, { wpm: 145, laughScale: 1, includeOptional: false });
+    var lpm = CW.laughsPerMinute(latest, {});
+    return '<a class="card" href="script.html?id=' + encodeURIComponent(s.id) + '&v=' + encodeURIComponent(latest.id) + '">' +
+      '<div class="row" style="margin-bottom:10px">' +
+        '<span class="pill pill--live">' + esc(s.status || 'draft') + '</span>' +
+        '<span class="pill">' + s.versions.length + ' versions</span>' +
+        '<span class="spacer"></span>' +
+        '<span class="faint small" style="font-family:var(--mono)">' + mmss(t.total) + '</span>' +
+      '</div>' +
+      '<h3>' + esc(s.title) + '</h3>' +
+      '<p style="margin-bottom:12px">' + [s.venue, s.date, s.slot].filter(Boolean).map(esc).join(' &middot; ') + '</p>' +
+      '<p class="small faint">' + esc((s.premise || '').slice(0, 190)) + '&hellip;</p>' +
+      '<div class="row small faint" style="margin-top:14px;gap:16px;font-family:var(--mono)">' +
+        '<span>' + t.words + ' words</span>' +
+        '<span>' + lpm.toFixed(1) + ' laughs/min</span>' +
+        '<span>' + mmss(trimmed.total) + ' trimmed</span>' +
+      '</div>' +
+    '</a>';
+  }).join('');
+  document.getElementById('list').innerHTML = html ||
+    '<div class="empty-state">No scripts registered yet.</div>';
+})();
+</script>
+</body>
+</html>

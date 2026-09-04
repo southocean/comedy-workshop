@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Case Study - Comedy Workshop</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#127820;</text></svg>">
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/model.js"></script>
+<script src="../assets/js/script-view.js"></script>
+<script src="../data/case-studies/soresi.js"></script>
+</head>
+<body>
+<header data-chrome data-page="case" data-base="../"></header>
+
+<main class="wrap wrap--wide" id="studyRoot">
+  <div class="row" style="margin-bottom:6px">
+    <a class="btn btn--ghost" href="index.html">&larr; Case studies</a>
+  </div>
+  <div id="studyBody"></div>
+</main>
+
+<footer data-footer></footer>
+
+<script>
+(function () {
+  var esc = CW.esc;
+  var id = CW.qs('id', 'soresi');
+  var s = CW.getStudy(id);
+  var host = document.getElementById('studyBody');
+
+  if (!s) {
+    host.innerHTML = '<div class="empty-state">No case study called <code>' + esc(id) +
+      '</code>. <a href="index.html">Back to case studies</a>.</div>';
+    return;
+  }
+  document.title = s.title + ' - Comedy Workshop';
+
+  var head = '<div class="eyebrow">Case study</div><h1 style="margin-bottom:6px">' + esc(s.title) + '</h1>' +
+    (s.source ? '<p class="muted small">' + esc(s.source) + '</p>' : '') +
+    (s.why ? '<p class="lede">' + esc(s.why) + '</p>' : '');
+
+  if (s.watchFor && s.watchFor.length) {
+    head += '<div class="panel" style="margin:22px 0"><div class="eyebrow">What to mark up</div><ul class="muted small" style="margin:0;padding-left:18px;line-height:1.9">' +
+      s.watchFor.map(function (w) { return '<li>' + esc(w) + '</li>'; }).join('') + '</ul></div>';
+  }
+
+  if (!s.versions || !s.versions.length) {
+    head += '<div class="empty-state" style="margin-top:24px">' +
+      '<h3 style="margin-bottom:8px">Transcript not in yet</h3>' +
+      '<p class="small" style="max-width:52ch;margin:0 auto">Paste the beats into ' +
+      '<code>data/case-studies/' + esc(s.id) + '.js</code> using the same ' +
+      '<code>versions &rarr; segments &rarr; beats</code> shape as a workshop script, and this page turns ' +
+      'into the full annotated viewer - roles, subversion inspector, expectation meters and runtime.</p>' +
+      '</div>';
+    host.innerHTML = head;
+    return;
+  }
+
+  // Full viewer, reusing the workshop machinery. mountScript() expects this
+  // exact DOM contract, so build all of it - the title/meta nodes are hidden
+  // because the case-study header above already shows that information.
+  host.innerHTML = head +
+    '<h1 id="scriptTitle" hidden></h1><p id="scriptMeta" hidden></p><p id="scriptPremise" hidden></p>' +
+    '<div id="toolbar" class="toolbar"></div><div id="versionNotes"></div>' +
+    '<div class="editor"><div class="editor__rail"><div id="rail"></div></div>' +
+    '<div id="pages"></div>' +
+    '<div class="editor__inspector"><div id="inspector"></div></div></div>';
+
+  document.getElementById('studyRoot').id = 'scriptRoot';
+  CW.registerScript(s);   // studies use the identical schema
+  CW.mountScript();
+})();
+</script>
+</body>
+</html>

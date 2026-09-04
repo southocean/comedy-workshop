@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Case Studies - Comedy Workshop</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#127820;</text></svg>">
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/model.js"></script>
+<script src="../data/case-studies/soresi.js"></script>
+</head>
+<body>
+<header data-chrome data-page="case" data-base="../"></header>
+
+<main class="wrap">
+  <div class="eyebrow">Case Studies</div>
+  <h1>Other people's sets, same instrument</h1>
+  <p class="lede">Take a bit you love, mark up its setups, punchlines and tags, and write down the
+  expectation it was steering the room into. If you cannot name the axis, you have not understood the
+  joke yet - you have only enjoyed it.</p>
+  <hr class="rule">
+
+  <div class="grid grid--2" id="list"></div>
+
+  <div class="callout" style="margin-top:32px">
+    <b>On material that is not yours.</b> These are other comedians' copyrighted acts. Store only the
+    short beats you are actually annotating, always credited, and keep the file in this private repo.
+    The value here is the mark-up, not the transcript.
+  </div>
+
+  <h2 style="margin-top:40px">Adding a case study</h2>
+  <p class="muted small" style="max-width:70ch">Create <code>data/case-studies/&lt;id&gt;.js</code> calling
+  <code>CW.registerStudy({...})</code>. It takes the same <code>versions &rarr; segments &rarr; beats</code>
+  shape as a workshop script, so the viewer, the inspector and the runtime estimator all work on it
+  unchanged. Add a <code>&lt;script&gt;</code> tag here and in <code>study.html</code>.</p>
+</main>
+
+<footer data-footer></footer>
+
+<script>
+(function () {
+  var esc = CW.esc;
+  var html = CW.allStudies().map(function (s) {
+    var ready = s.versions && s.versions.length;
+    return '<a class="card" href="study.html?id=' + encodeURIComponent(s.id) + '">' +
+      '<div class="row" style="margin-bottom:10px">' +
+        '<span class="pill' + (ready ? ' pill--live' : '') + '">' + esc(s.status || 'draft') + '</span>' +
+      '</div>' +
+      '<h3>' + esc(s.title) + '</h3>' +
+      '<p>' + esc(s.why || '') + '</p></a>';
+  }).join('');
+  document.getElementById('list').innerHTML = html ||
+    '<div class="empty-state">No case studies yet.</div>';
+})();
+</script>
+</body>
+</html>

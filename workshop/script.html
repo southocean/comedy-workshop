@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Script - Comedy Workshop</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#127820;</text></svg>">
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/model.js"></script>
+<script src="../assets/js/script-view.js"></script>
+<script src="../data/scripts/kulturnatten-2026.js"></script>
+</head>
+<body>
+<header data-chrome data-page="workshop" data-base="../"></header>
+
+<main class="wrap wrap--wide" id="scriptRoot">
+  <div class="row" style="margin-bottom:6px">
+    <a class="btn btn--ghost" href="index.html">&larr; Workshop</a>
+  </div>
+  <h1 id="scriptTitle" style="margin-bottom:6px">&nbsp;</h1>
+  <p class="muted small" id="scriptMeta"></p>
+  <p class="lede small" id="scriptPremise" style="font-size:14px"></p>
+
+  <div id="toolbar" class="toolbar"></div>
+  <div id="versionNotes"></div>
+
+  <div class="editor">
+    <div class="editor__rail"><div id="rail"></div></div>
+    <div id="pages"></div>
+    <div class="editor__inspector"><div id="inspector"></div></div>
+  </div>
+
+  <details style="margin-top:28px">
+    <summary class="muted small" style="cursor:pointer">Legend &amp; how to read this</summary>
+    <div class="panel" style="margin-top:12px">
+      <div class="legend" style="margin-bottom:16px">
+        <span><i style="background:var(--setup-bg);box-shadow:inset 0 -2px 0 var(--setup-edge)"></i>Setup</span>
+        <span><i style="background:var(--punch-bg);box-shadow:inset 0 -2px 0 var(--punch-edge)"></i>Punchline</span>
+        <span><i style="background:var(--tag-bg);box-shadow:inset 0 -2px 0 var(--tag-edge)"></i>Tag</span>
+        <span><i style="background:var(--actout-bg);box-shadow:inset 0 -2px 0 var(--actout-edge)"></i>Act-out</span>
+        <span><i style="background:var(--callback-bg);box-shadow:inset 0 -2px 0 var(--callback-edge)"></i>Callback</span>
+        <span><i style="background:var(--sincere-bg);box-shadow:inset 0 -2px 0 var(--sincere-edge)"></i>Sincere</span>
+      </div>
+      <p class="small muted" style="margin:0">
+        The orange <b>S</b> marker is a point of subversion - hover or click the line to see what the room
+        expected, what they got, and the axis between the two. Setups show the full distribution of
+        expectations with a concentration grade. The gutter time is what that single line costs, including
+        its pause and its budgeted laugh.
+        <br><br>
+        <b>Cuttable lines</b> toggles the marked-optional beats and recalculates the runtime, so you can see
+        what the set weighs after trimming. <b>Plain text</b> strips every annotation down to a clean
+        rehearsal script. <b>Pace</b> and <b>room</b> re-run the estimate at a different speaking speed and a
+        different assumption about how much the audience actually laughs - drop the room to 60% to see the
+        set as it will run on a quiet Tuesday.
+      </p>
+    </div>
+  </details>
+</main>
+
+<footer data-footer></footer>
+<script>CW.mountScript();</script>
+</body>
+</html>

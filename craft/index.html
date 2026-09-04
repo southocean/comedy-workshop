@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Writing Craft - Comedy Workshop</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#127820;</text></svg>">
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/model.js"></script>
+<script src="../assets/js/craft-data.js"></script>
+</head>
+<body>
+<header data-chrome data-page="craft" data-base="../"></header>
+
+<main class="wrap">
+  <div class="eyebrow">Writing Craft</div>
+  <h1>The principles this workshop scores against</h1>
+  <p class="lede">Working rules, not laws. Each one exists because it changes what you do to a line
+  when it is not getting a laugh.</p>
+  <hr class="rule">
+
+  <div class="craft">
+    <nav class="toc" id="toc" aria-label="Principles"></nav>
+    <div id="principles"></div>
+  </div>
+</main>
+
+<footer data-footer></footer>
+
+<script>
+(function () {
+  var esc = CW.esc;
+  var toc = '', body = '';
+
+  CW.CRAFT.forEach(function (p, i) {
+    var n = String(i + 1).padStart(2, '0');
+    toc += '<a href="#' + p.id + '" data-t="' + p.id + '">' + n + '. ' + esc(p.title) + '</a>';
+
+    body += '<article class="principle" id="' + p.id + '">' +
+      '<h2><span class="principle__n">' + n + '</span><span>' + esc(p.title) + '</span></h2>' +
+      p.body.map(function (t) { return '<p class="muted">' + esc(t) + '</p>'; }).join('');
+
+    if (p.example) {
+      body += '<div class="example">' + p.example.lines.map(function (l) {
+        return '<div class="ex-line"><span class="ex-tag">' + esc(l.tag) + '</span>' + esc(l.text) + '</div>';
+      }).join('') + '</div>';
+    }
+    if (p.table) {
+      body += '<table class="tbl"><tbody>' + p.table.map(function (r) {
+        return '<tr><th style="width:26%;white-space:nowrap">' + esc(r[0]) + '</th><td>' + esc(r[1]) + '</td></tr>';
+      }).join('') + '</tbody></table>';
+    }
+    if (p.rule) {
+      body += '<div class="callout"><b>Rule of thumb.</b> ' + esc(p.rule) + '</div>';
+    }
+    body += '</article>';
+  });
+
+  document.getElementById('toc').innerHTML = toc;
+  document.getElementById('principles').innerHTML = body;
+
+  // active section in the table of contents
+  var links = {};
+  Array.prototype.forEach.call(document.querySelectorAll('#toc a'), function (a) { links[a.dataset.t] = a; });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          Object.keys(links).forEach(function (k) { links[k].classList.remove('is-active'); });
+          if (links[e.target.id]) links[e.target.id].classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    Array.prototype.forEach.call(document.querySelectorAll('.principle'), function (n) { io.observe(n); });
+  }
+})();
+</script>
+</body>
+</html>
