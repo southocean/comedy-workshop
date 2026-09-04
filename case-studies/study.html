@@ -9,6 +9,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>&#127820;</text></svg>">
 <script src="../assets/js/core.js"></script>
 <script src="../assets/js/model.js"></script>
+<script src="../assets/js/craft-data.js"></script>
 <script src="../assets/js/script-view.js"></script>
 <script src="../data/case-studies/soresi.js"></script>
 </head>
@@ -38,36 +39,72 @@
   }
   document.title = s.title + ' - Comedy Workshop';
 
-  var head = '<div class="eyebrow">Case study</div><h1 style="margin-bottom:6px">' + esc(s.title) + '</h1>' +
+  var h = '<div class="eyebrow">Case study</div><h1 style="margin-bottom:6px">' + esc(s.title) + '</h1>' +
     (s.source ? '<p class="muted small">' + esc(s.source) + '</p>' : '') +
     (s.why ? '<p class="lede">' + esc(s.why) + '</p>' : '');
 
   if (s.watchFor && s.watchFor.length) {
-    head += '<div class="panel" style="margin:22px 0"><div class="eyebrow">What to mark up</div><ul class="muted small" style="margin:0;padding-left:18px;line-height:1.9">' +
+    h += '<div class="panel" style="margin:22px 0"><div class="eyebrow">What to watch for</div>' +
+      '<ul class="muted small" style="margin:0;padding-left:18px;line-height:1.9">' +
       s.watchFor.map(function (w) { return '<li>' + esc(w) + '</li>'; }).join('') + '</ul></div>';
   }
 
+  /* ---- hour-level architecture ---- */
+  if (s.architecture) {
+    var a = s.architecture;
+    if (a.shape) {
+      h += '<h2 style="margin-top:36px">The shape of the hour</h2>' +
+        '<table class="tbl"><tbody>' + a.shape.map(function (r) {
+          return '<tr><th style="width:16%;white-space:nowrap">' + esc(r[0]) + '</th>' +
+                 '<td style="width:18%"><b>' + esc(r[1]) + '</b></td>' +
+                 '<td class="muted">' + esc(r[2]) + '</td></tr>';
+        }).join('') + '</tbody></table>';
+    }
+    if (a.threads) {
+      h += '<h2 style="margin-top:36px">Threads running the full hour</h2>' +
+        '<div class="grid grid--2" style="margin-top:14px">' + a.threads.map(function (t) {
+          return '<div class="panel">' +
+            '<div style="font-family:var(--serif);font-size:17px;margin-bottom:10px">' + esc(t.handle) + '</div>' +
+            '<div class="small"><span class="role-chip t-setup">planted</span> <span class="muted">' + esc(t.planted) + '</span></div>' +
+            '<div class="small" style="margin-top:5px"><span class="role-chip t-callback">cashed</span> <span class="muted">' + esc(t.cashed) + '</span></div>' +
+            '<p class="small faint" style="margin:10px 0 0">' + esc(t.note) + '</p></div>';
+        }).join('') + '</div>';
+    }
+  }
+
   if (!s.versions || !s.versions.length) {
-    head += '<div class="empty-state" style="margin-top:24px">' +
+    h += '<div class="empty-state" style="margin-top:24px">' +
       '<h3 style="margin-bottom:8px">Transcript not in yet</h3>' +
       '<p class="small" style="max-width:52ch;margin:0 auto">Paste the beats into ' +
       '<code>data/case-studies/' + esc(s.id) + '.js</code> using the same ' +
-      '<code>versions &rarr; segments &rarr; beats</code> shape as a workshop script, and this page turns ' +
-      'into the full annotated viewer - roles, subversion inspector, expectation meters and runtime.</p>' +
-      '</div>';
-    host.innerHTML = head;
+      '<code>versions &rarr; segments &rarr; beats</code> shape as a workshop script.</p></div>';
+    host.innerHTML = h;
     return;
   }
 
-  // Full viewer, reusing the workshop machinery. mountScript() expects this
-  // exact DOM contract, so build all of it - the title/meta nodes are hidden
-  // because the case-study header above already shows that information.
-  host.innerHTML = head +
+  /* ---- the annotated viewer, reusing the workshop machinery ---- */
+  h += '<h2 style="margin-top:44px">Annotated excerpts</h2>' +
+    '<p class="muted small" style="max-width:70ch">Eight segments of forty-four. Quotes are short and ' +
+    'present only where a specific craft point is being made - the full transcript is deliberately not ' +
+    'stored in this repo. Hover or click any line to inspect it.</p>' +
     '<h1 id="scriptTitle" hidden></h1><p id="scriptMeta" hidden></p><p id="scriptPremise" hidden></p>' +
     '<div id="toolbar" class="toolbar"></div><div id="versionNotes"></div>' +
     '<div class="editor"><div class="editor__rail"><div id="rail"></div></div>' +
     '<div id="pages"></div>' +
     '<div class="editor__inspector"><div id="inspector"></div></div></div>';
+
+  if (s.takeaways && s.takeaways.length) {
+    h += '<h2 style="margin-top:48px">What we are stealing</h2>' +
+      '<ol class="muted" style="max-width:74ch;line-height:1.8;padding-left:20px">' +
+      s.takeaways.map(function (t) { return '<li style="margin-bottom:8px">' + esc(t) + '</li>'; }).join('') +
+      '</ol>';
+  }
+
+  h += '<div class="callout" style="margin-top:28px"><b>On the material.</b> This is someone else\'s ' +
+       'copyrighted act. What is stored here is analysis, with short quoted anchors where a point is ' +
+       'being made about them. Keep it that way, and keep the repo private.</div>';
+
+  host.innerHTML = h;
 
   document.getElementById('studyRoot').id = 'scriptRoot';
   CW.registerScript(s);   // studies use the identical schema

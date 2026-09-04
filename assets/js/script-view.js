@@ -136,6 +136,14 @@
       h += '<h4>Why it is a tag</h4><p class="muted">No new subversion. It rides the axis the punchline already opened - the value is that they did not think there was more.</p>';
     }
     if (b.note) h += '<h4>Craft note</h4><p>' + esc(b.note) + '</p>';
+    if (b.qa && b.qa.length) {
+      h += '<h4>Principles in play</h4><div class="row" style="gap:6px">' +
+        b.qa.map(function (pid) {
+          var p = (window.CW.CRAFT && CW.CRAFT.principles || []).filter(function (x) { return x.id === pid; })[0];
+          return '<a class="pill" href="' + (state.craftBase || '../craft/index.html') + '#' + esc(pid) + '">' +
+                 esc(p ? p.title : pid) + '</a>';
+        }).join('') + '</div>';
+    }
     if (b.callbackTo) h += '<h4>Callback</h4><p>Reactivates <code>' + esc(b.callbackTo) + '</code>.</p>';
     if (b.delivery) h += '<h4>Delivery</h4><p>' + esc(b.delivery) + '</p>';
     if (b.alt && b.alt.length) {
@@ -160,13 +168,18 @@
     var host = document.getElementById('rail');
     if (!host) return;
     var t = CW.timeVersion(state.version, state.opts);
-    var target = state.script.targetSeconds || 300;
+    // A case study has no slot to hit, so it carries no target and gets no gauge.
+    var target = state.script.targetSeconds;
     var lpm = CW.laughsPerMinute(state.version, state.opts);
-    var delta = t.total - target;
-    var gaugeCls = Math.abs(delta) <= 15 ? 'good' : (delta > 0 ? 'over' : 'under');
-    var gaugeTxt = Math.abs(delta) <= 15
-      ? 'On target'
-      : (delta > 0 ? mmss(delta) + ' over target' : mmss(-delta) + ' under target');
+    var gaugeTxt = '', gaugeCls = 'good', targetLine = 'estimated from word count';
+    if (target) {
+      var delta = t.total - target;
+      gaugeCls = Math.abs(delta) <= 15 ? 'good' : (delta > 0 ? 'over' : 'under');
+      gaugeTxt = Math.abs(delta) <= 15
+        ? 'On target'
+        : (delta > 0 ? mmss(delta) + ' over target' : mmss(-delta) + ' under target');
+      targetLine = 'estimated &middot; target ' + mmss(target);
+    }
 
     var bar = t.segments.map(function (s, i) {
       return '<span style="width:' + (t.total ? (s.seconds / t.total * 100) : 0) + '%;background:' +
@@ -182,8 +195,8 @@
     host.innerHTML =
       '<div class="rail">' +
         '<div class="rail__total">' + mmss(t.total) + '</div>' +
-        '<div class="rail__target">estimated &middot; target ' + mmss(target) + '</div>' +
-        '<div class="gauge gauge--' + gaugeCls + '">' + gaugeTxt + '</div>' +
+        '<div class="rail__target">' + targetLine + '</div>' +
+        (gaugeTxt ? '<div class="gauge gauge--' + gaugeCls + '">' + gaugeTxt + '</div>' : '') +
         '<div class="rail__bar">' + bar + '</div>' +
         segs +
         '<hr class="rule" style="margin:12px 0">' +

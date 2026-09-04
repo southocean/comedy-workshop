@@ -16,14 +16,50 @@
 
 <main class="wrap">
   <div class="eyebrow">Writing Craft</div>
-  <h1>The principles this workshop scores against</h1>
-  <p class="lede">Working rules, not laws. Each one exists because it changes what you do to a line
-  when it is not getting a laugh.</p>
-  <hr class="rule">
+  <h1>Principles</h1>
+  <p class="lede">Distilled from the joke-anatomy literature, humour theory, and comedians who have
+  written down how they work - then reduced to the question you actually run against a draft.</p>
+
+  <div class="row" style="margin:22px 0 8px">
+    <button class="btn btn--on" id="mView" aria-pressed="true">Full</button>
+    <button class="btn" id="mCheck" aria-pressed="false">QA checklist</button>
+    <span class="spacer"></span>
+    <a class="btn btn--ghost" href="#toolkit">Toolkit</a>
+    <a class="btn btn--ghost" href="#sources">Sources</a>
+  </div>
+  <hr class="rule" style="margin-top:14px">
 
   <div class="craft">
     <nav class="toc" id="toc" aria-label="Principles"></nav>
-    <div id="principles"></div>
+    <div>
+      <div id="principles"></div>
+      <div id="checklist" hidden></div>
+
+      <section id="notes" style="margin-top:56px">
+        <hr class="rule">
+        <div class="eyebrow">Craft notes</div>
+        <h2 style="font-size:1.7rem">Longer working notes</h2>
+        <p class="muted" style="max-width:66ch">Essays on our own method. The principles above are the
+        canon; these are the arguments behind the parts of it that are ours rather than inherited.</p>
+        <div id="notesBody"></div>
+      </section>
+
+      <section id="toolkit" style="margin-top:56px">
+        <hr class="rule">
+        <div class="eyebrow">Toolkit</div>
+        <h2 style="font-size:1.7rem">Named devices</h2>
+        <p class="muted" style="max-width:66ch">A lookup table, not a theory. When a bit is stuck, run the
+        premise through these until something catches.</p>
+        <div id="toolkitBody"></div>
+      </section>
+
+      <section id="sources" style="margin-top:56px">
+        <hr class="rule">
+        <div class="eyebrow">Sources</div>
+        <h2 style="font-size:1.7rem">Where this came from</h2>
+        <div id="sourcesBody"></div>
+      </section>
+    </div>
   </div>
 </main>
 
@@ -32,14 +68,32 @@
 <script>
 (function () {
   var esc = CW.esc;
-  var toc = '', body = '';
+  var P = CW.CRAFT.principles;
 
-  CW.CRAFT.forEach(function (p, i) {
-    var n = String(i + 1).padStart(2, '0');
-    toc += '<a href="#' + p.id + '" data-t="' + p.id + '">' + n + '. ' + esc(p.title) + '</a>';
+  /* ---- table of contents, grouped ---- */
+  var toc = '', lastGroup = null;
+  P.forEach(function (p, i) {
+    if (p.group !== lastGroup) {
+      toc += '<div class="eyebrow" style="margin:14px 0 4px">' + esc(p.group) + '</div>';
+      lastGroup = p.group;
+    }
+    toc += '<a href="#' + p.id + '" data-t="' + p.id + '">' +
+           String(i + 1).padStart(2, '0') + '. ' + esc(p.title) + '</a>';
+  });
+  toc += '<div class="eyebrow" style="margin:18px 0 4px">More</div>' +
+         '<a href="#notes">Craft notes</a><a href="#toolkit">Toolkit</a><a href="#sources">Sources</a>';
+  document.getElementById('toc').innerHTML = toc;
 
+  /* ---- full principles ---- */
+  var body = '', grp = null;
+  P.forEach(function (p, i) {
+    if (p.group !== grp) {
+      body += '<div class="eyebrow" style="margin:40px 0 -10px;color:var(--accent)">' + esc(p.group) + '</div>';
+      grp = p.group;
+    }
     body += '<article class="principle" id="' + p.id + '">' +
-      '<h2><span class="principle__n">' + n + '</span><span>' + esc(p.title) + '</span></h2>' +
+      '<h2><span class="principle__n">' + String(i + 1).padStart(2, '0') + '</span>' +
+      '<span>' + esc(p.title) + '</span></h2>' +
       p.body.map(function (t) { return '<p class="muted">' + esc(t) + '</p>'; }).join('');
 
     if (p.example) {
@@ -52,18 +106,88 @@
         return '<tr><th style="width:26%;white-space:nowrap">' + esc(r[0]) + '</th><td>' + esc(r[1]) + '</td></tr>';
       }).join('') + '</tbody></table>';
     }
-    if (p.rule) {
-      body += '<div class="callout"><b>Rule of thumb.</b> ' + esc(p.rule) + '</div>';
+    body += '<div class="callout"><b>QA.</b> ' + esc(p.qa) + '</div>';
+    if (p.lineage) {
+      body += '<p class="faint small" style="margin:-6px 0 0">Lineage: ' + esc(p.lineage) + '</p>';
     }
     body += '</article>';
   });
-
-  document.getElementById('toc').innerHTML = toc;
   document.getElementById('principles').innerHTML = body;
 
-  // active section in the table of contents
+  /* ---- checklist mode: just the questions ---- */
+  var chk = '<p class="muted" style="max-width:62ch">Run a draft against these in order. ' +
+            'Tick nothing - the point is to notice which question you cannot answer.</p>';
+  grp = null;
+  P.forEach(function (p, i) {
+    if (p.group !== grp) {
+      chk += '<div class="eyebrow" style="margin:26px 0 8px;color:var(--accent)">' + esc(p.group) + '</div>';
+      grp = p.group;
+    }
+    chk += '<div class="panel" style="margin-bottom:8px;padding:12px 14px">' +
+      '<div class="row" style="gap:12px;align-items:flex-start">' +
+        '<span class="principle__n" style="padding-top:2px">' + String(i + 1).padStart(2, '0') + '</span>' +
+        '<div style="flex:1;min-width:0">' +
+          '<div style="font-weight:620;margin-bottom:2px">' + esc(p.qa) + '</div>' +
+          '<a class="faint small" href="#' + p.id + '" data-jump="' + p.id + '">' + esc(p.title) + '</a>' +
+        '</div>' +
+      '</div></div>';
+  });
+  document.getElementById('checklist').innerHTML = chk;
+
+  /* ---- notes ---- */
+  document.getElementById('notesBody').innerHTML = CW.CRAFT.notes.map(function (n) {
+    var h = '<article class="principle" id="' + n.id + '"><h2><span>' + esc(n.title) + '</span></h2>' +
+      n.body.map(function (t) { return '<p class="muted">' + esc(t) + '</p>'; }).join('');
+    if (n.example) {
+      h += '<div class="example">' + n.example.lines.map(function (l) {
+        return '<div class="ex-line"><span class="ex-tag">' + esc(l.tag) + '</span>' + esc(l.text) + '</div>';
+      }).join('') + '</div>';
+    }
+    if (n.rule) h += '<div class="callout"><b>Rule of thumb.</b> ' + esc(n.rule) + '</div>';
+    return h + '</article>';
+  }).join('');
+
+  /* ---- toolkit ---- */
+  document.getElementById('toolkitBody').innerHTML = CW.CRAFT.toolkit.map(function (t) {
+    return '<article class="principle"><h2><span>' + esc(t.group) + '</span></h2>' +
+      '<p class="muted">' + esc(t.blurb) + '</p>' +
+      '<table class="tbl"><tbody>' + t.items.map(function (r) {
+        return '<tr><th style="width:30%">' + esc(r[0]) + '</th><td>' + esc(r[1]) + '</td></tr>';
+      }).join('') + '</tbody></table></article>';
+  }).join('');
+
+  /* ---- sources ---- */
+  document.getElementById('sourcesBody').innerHTML =
+    '<table class="tbl"><tbody>' + CW.CRAFT.sources.map(function (s) {
+      return '<tr><th style="width:22%">' + esc(s[0]) + '</th>' +
+             '<td><b>' + esc(s[1]) + '</b><br><span class="muted">' + esc(s[2]) + '</span></td></tr>';
+    }).join('') + '</tbody></table>';
+
+  /* ---- mode toggle ---- */
+  var mView = document.getElementById('mView'), mCheck = document.getElementById('mCheck');
+  function mode(check) {
+    document.getElementById('principles').hidden = check;
+    document.getElementById('checklist').hidden = !check;
+    ['notes', 'toolkit', 'sources'].forEach(function (id) {
+      document.getElementById(id).hidden = check;
+    });
+    mView.setAttribute('aria-pressed', String(!check));
+    mCheck.setAttribute('aria-pressed', String(check));
+    mView.classList.toggle('btn--on', !check);
+    mCheck.classList.toggle('btn--on', check);
+  }
+  mView.onclick = function () { mode(false); };
+  mCheck.onclick = function () { mode(true); };
+  document.getElementById('checklist').addEventListener('click', function (e) {
+    var a = e.target.closest('[data-jump]');
+    if (a) mode(false);   // jumping to a principle needs the full view visible
+  });
+
+  /* ---- active section in the toc ---- */
   var links = {};
-  Array.prototype.forEach.call(document.querySelectorAll('#toc a'), function (a) { links[a.dataset.t] = a; });
+  Array.prototype.forEach.call(document.querySelectorAll('#toc a'), function (a) {
+    if (a.dataset.t) links[a.dataset.t] = a;
+  });
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
@@ -73,7 +197,9 @@
         }
       });
     }, { rootMargin: '-80px 0px -70% 0px' });
-    Array.prototype.forEach.call(document.querySelectorAll('.principle'), function (n) { io.observe(n); });
+    Array.prototype.forEach.call(document.querySelectorAll('#principles .principle'), function (n) {
+      io.observe(n);
+    });
   }
 })();
 </script>

@@ -15,7 +15,7 @@ Static site — no build step, no dependencies. Open `index.html` directly, or s
 | Page | What it is |
 | --- | --- |
 | `index.html` | Overview and the beat-role legend |
-| `craft/` | Writing Craft — the twelve principles the workshop scores against |
+| `craft/` | Writing Craft — 26 distilled principles, a QA checklist mode, a device toolkit, and sources |
 | `workshop/` | Script index |
 | `workshop/script.html?id=…&v=…` | The annotated script viewer |
 | `case-studies/` | Other comedians, marked up with the same instrument |
@@ -97,7 +97,13 @@ surprise and escalation, not a second turn.
 ## Current scripts
 
 **Kulturnatten 2026** — 5 minute open mic, banana suit. Spine: one year in, twenty-one kroner, and
-Cattelan's *Comedian*. Two versions; `v2` is the working draft.
+Cattelan's *Comedian*. Three versions; **`v3` is the current draft** (6:03 full, 5:12 with cuttables off).
+
+`v3` is a de-AI pass. `v2` read fine on the page and would have played flat: seven of its punchlines
+resolved as the same antithesis — *"this isn't X, it's Y"* — so by the third one the room can feel the
+landing coming without predicting the words. Surprise was dying at the level of syntax. `v2` also had
+zero act-outs and no other human being in it for five minutes. Compare `v2` against `v3` in the viewer
+to see every substitution and why.
 
 Two things in it are flagged in the data and worth a decision before you learn it:
 
@@ -111,3 +117,8 @@ Two things in it are flagged in the data and worth a decision before you learn i
 Case-study files hold other comedians' copyrighted material. Store only the short beats you're actually
 annotating, always credited. The value is the mark-up, not the transcript. This repo is private; keep it
 that way.
+
+**Gianmarco Soresi — *Thief of Joy*** (2025, 66 min) is analysed: the shape of the hour, the four handles
+that run its full length, and eight segments marked up beat-by-beat. The full transcript is deliberately
+**not** in this repo — only short quoted anchors where a specific craft point is being made about them.
+A working segmentation of the whole hour lives outside the repo, in `~/Downloads`.
