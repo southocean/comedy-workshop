@@ -32,6 +32,9 @@
   /* sticky site-header: 56px of content + its 1px bottom border. Every
      other sticky offset is derived from this so they cannot drift apart. */
   --header-h: 57px;
+  /* height of the sticky .toolbar, measured at runtime by core.js because it
+     wraps to two rows at narrow widths. 0 on pages that have no toolbar. */
+  --toolbar-h: 0px;
 
   --radius:   10px;
   --radius-s: 6px;
@@ -230,8 +233,8 @@ select.input, input.input {
 @media (max-width: 1180px) { .editor { grid-template-columns: minmax(0,1fr) 320px; } .editor__rail { display:none; } }
 @media (max-width: 860px)  { .editor { grid-template-columns: minmax(0,1fr); } .editor__inspector { position: static !important; } }
 
-.editor__rail, .editor__inspector { position: sticky; top: calc(var(--header-h) + 19px); }
-.editor__inspector { max-height: calc(100vh - 100px); overflow-y: auto; }
+.editor__rail, .editor__inspector { position: sticky; top: calc(var(--header-h) + var(--toolbar-h) + 19px); }
+.editor__inspector { max-height: calc(100vh - var(--header-h) - var(--toolbar-h) - 43px); overflow-y: auto; }
 
 .toolbar {
   display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
@@ -255,7 +258,7 @@ select.input, input.input {
 .seg:first-child { border-top: 0; }
 .seg__head {
   display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
-  padding: 18px 28px 8px; scroll-margin-top: 130px;
+  padding: 18px 28px 8px; scroll-margin-top: calc(var(--header-h) + var(--toolbar-h) + 18px);
 }
 .seg__num {
   font-family: var(--mono); font-size: 11px; color: var(--text-faint);
@@ -426,7 +429,7 @@ body.plain-text .subv-dot { display: none; }
 .diff-key i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; }
 
 /* ---------- Craft page ---------- */
-.toc { position: sticky; top: calc(var(--header-h) + 19px); font-size: 13px; }
+.toc { position: sticky; top: calc(var(--header-h) + var(--toolbar-h) + 19px); font-size: 13px; }
 .toc a { display: block; padding: 4px 9px; border-radius: var(--radius-s); color: var(--text-dim); text-decoration: none; }
 .toc a:hover { background: var(--bg-hover); color: var(--text); }
 .toc a.is-active { background: var(--bg-hover); color: var(--text); font-weight: 600; }

@@ -34,10 +34,11 @@ start C:\projects\work\comedy-workshop\index.html
 
 Everything works this way — the viewer, the inspector, compare, the theme toggle.
 
-For clean URLs, or to open it from your phone on the same wifi:
+For clean URLs, or to open it from your phone on the same wifi (no Python on this
+machine — `serve.mjs` is dependency-free Node, same as the rest of the repo):
 
 ```bash
-cd C:\projects\work\comedy-workshop && python -m http.server 8731
+node serve.mjs
 ```
 
 Then <http://127.0.0.1:8731/>.

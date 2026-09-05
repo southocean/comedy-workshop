@@ -398,5 +398,6 @@
 
     draw();
     wireBeats();
+    if (CW.syncStickyStack) CW.syncStickyStack();
   };
 })();

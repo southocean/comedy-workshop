@@ -89,9 +89,44 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', buildChrome);
   else buildChrome();
 
+  /* ---------------- sticky stack ----------------
+     The rail, inspector and TOC sit below the toolbar, which is itself sticky
+     under the header. Its height is not a constant - it wraps to two rows at
+     narrow widths - so publish it as --toolbar-h and let the CSS derive every
+     offset from it, rather than hard-coding a number that goes stale. */
+  var stackObserved = false;
+  function measureToolbar() {
+    var tb = document.querySelector('.toolbar');
+    var h = tb ? Math.round(tb.getBoundingClientRect().height) : 0;
+    document.documentElement.style.setProperty('--toolbar-h', h + 'px');
+  }
+  var stackTimer = 0;
+  function schedule() {
+    // setTimeout, not requestAnimationFrame: rAF is suspended while the tab is
+    // hidden, so a resize in a background tab would leave the pending flag
+    // latched on and kill every later update, even after you come back.
+    if (stackTimer) return;
+    stackTimer = window.setTimeout(function () {
+      stackTimer = 0;
+      measureToolbar();
+    }, 16);
+  }
+  function syncStickyStack() {
+    measureToolbar();
+    var tb = document.querySelector('.toolbar');
+    if (!tb || stackObserved) return;
+    stackObserved = true;
+    // Both, deliberately. resize catches the wrap when the window changes;
+    // ResizeObserver also catches it when the toolbar reflows on its own
+    // (a late webfont, a longer version label) with no resize event.
+    window.addEventListener('resize', schedule);
+    if (window.ResizeObserver) new window.ResizeObserver(schedule).observe(tb);
+  }
+
   /* ---------------- helpers ---------------- */
   window.CW = window.CW || {};
   window.CW.setTheme = setTheme;
+  window.CW.syncStickyStack = syncStickyStack;
   window.CW.esc = function (s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
