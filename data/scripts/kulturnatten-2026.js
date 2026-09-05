@@ -740,6 +740,377 @@ CW.registerScript({
           ]
         }
       ]
+    },
+    {
+      id: "v4",
+      label: "v4 - the delegation",
+      date: "2026-09-05",
+      notes: "Rebuilt from the character up, not edited down from v3. The comedian frame is gone: he is in character from the first syllable and the room knows his goal within twelve seconds - he is selling himself, to be eaten. The v3 complaints were measured, not impressions. v3 ran setup median 11 words against punch median 16, which is inverted; Soresi runs 27 against 11; v4 runs 30 against 7. v3 carried 12 tags for 8 punches, with four in a single segment - over the ceiling principle 13 sets; v4 carries 8 for 11, never more than two per segment, tag median 6 words against v3's 17. The Cavendish material is no longer a lecture: it is held back to segment 5 and spent as one thirteen-word punchline. Every factual claim is true and checkable - ethylene ripening, EC 2257/94 and its undefined 'abnormal curvature', triploid sterility, the Chatsworth original, TR4 reaching Ecuador, and QCAV-4 due on shelves in 2027.",
+      segments: [
+        {
+          id: "delegation",
+          title: "The delegation",
+          intent: "No comedian, no explanation, no easing in. State the goal in one sentence and let the suit be the only exposition the room needs.",
+          beats: [
+            {
+              id: "b4-stage",
+              role: "stage",
+              text: "[You walk out already in the suit and never acknowledge it. You carry cue cards you do not look at. You are not doing a bit. You are doing your job.]"
+            },
+            {
+              id: "b4-greet",
+              role: "setup",
+              pauseAfter: 0.4,
+              text: "Good evening. I represent four hundred growers, and I have travelled a very long way tonight, because there is a rumour going round Sweden that we are ripened with chemicals. I would like to put that to bed.",
+              expectations: [
+                { label: "He will deny it and defend the industry - this is a corporate spokesman bit.", pct: 84 },
+                { label: "He will admit it straight away for the laugh.", pct: 11 },
+                { label: "He will change the subject.", pct: 5 }
+              ],
+              qa: ["concentrate", "prediction"],
+              note: "Long on purpose. The whole set's weighting depends on setups buying a strong prediction so the punch can be tiny."
+            },
+            {
+              id: "b4-gas",
+              role: "punch",
+              laugh: 4,
+              text: "We are not ripened with chemicals. We are gassed.",
+              subversion: {
+                from: "He is about to reassure us - the accusation is false.",
+                to: "The accusation was too kind. The truth is worse and he volunteers it.",
+                axis: "defence to confession",
+                mechanism: "The correction is accurate and lands harder than the smear it corrects. The flip word is last."
+              },
+              delivery: "Say it like it settles the matter. He thinks this helps.",
+              qa: ["punch-word-last", "refuse-obvious"]
+            },
+            {
+              id: "b4-gas-tag",
+              role: "tag",
+              laugh: 2.5,
+              text: "It is a natural gas.",
+              note: "Five words. Rides the axis and adds no new subversion, which is exactly what principle 29 says a tag is."
+            },
+            {
+              id: "b4-ethylene",
+              role: "setup",
+              text: "The gas is ethylene. And I know what you are picturing. A warehouse. A sealed room. A man standing outside it with a clipboard, watching a dial.",
+              expectations: [
+                { label: "He will say it is nothing like that.", pct: 79 },
+                { label: "He will confirm the picture is accurate.", pct: 16 },
+                { label: "He will somehow make it sound worse.", pct: 5 }
+              ],
+              qa: ["concentrate"]
+            },
+            {
+              id: "b4-exactly",
+              role: "punch",
+              laugh: 4,
+              text: "That is exactly what it is. But the gas is ours.",
+              subversion: {
+                from: "The mental image is an exaggeration he is about to correct.",
+                to: "The image is precise, and the horror moves inward - they do it to each other.",
+                axis: "external process to self-administered",
+                mechanism: "Confirm the picture instead of denying it, then relocate the guilt. Principle 6 - misdirect with the truth."
+              }
+            },
+            {
+              id: "b4-vol",
+              role: "tag",
+              laugh: 3.5,
+              pauseBefore: 0.5,
+              text: "We gas each other.",
+              delivery: "Flat. Proud, even. Four words, then stop."
+            }
+          ]
+        },
+        {
+          id: "organic",
+          title: "Fully organic",
+          intent: "The pitch gets harder and leakier. He is selling to a market that cares about provenance, and every proof he offers is evidence against him.",
+          beats: [
+            {
+              id: "b4-org",
+              role: "setup",
+              text: "I am told the Swedish consumer cares very much about organic. I want you to know that I am fully organic, and I can prove it, because there is a sticker on me.",
+              expectations: [
+                { label: "The sticker will say something absurd - the joke is what is printed on it.", pct: 72 },
+                { label: "He will admit the certification is fake.", pct: 20 },
+                { label: "The sticker turns out to be about something else entirely.", pct: 8 }
+              ],
+              qa: ["concentrate", "specific"]
+            },
+            {
+              id: "b4-sticker",
+              role: "punch",
+              laugh: 4,
+              text: "The sticker is not organic.",
+              subversion: {
+                from: "The certification is the evidence for his claim.",
+                to: "The only manufactured thing on him is the proof of his naturalness.",
+                axis: "proof to contradiction",
+                mechanism: "The evidence indicts the claim it was offered to support. Land on 'organic'."
+              }
+            },
+            {
+              id: "b4-sticker-tag",
+              role: "tag",
+              laugh: 3.5,
+              text: "It is the only part of me you cannot eat.",
+              note: "Turns rather than escalating flatly - moves from certification to consumption, which is the set's real subject. Nine words is the long end of the budget, earned by the turn."
+            },
+            {
+              id: "b4-eldorado",
+              role: "setup",
+              text: "I also want to address Eldorado. I have seen the shelf. I know where they put us, I know what they charge, and I know which of us actually goes home with you.",
+              expectations: [
+                { label: "He will attack the budget brand as inferior.", pct: 70 },
+                { label: "He will admit he is the budget brand.", pct: 22 },
+                { label: "He will pivot to a price joke.", pct: 8 }
+              ]
+            },
+            {
+              id: "b4-cheap",
+              role: "punch",
+              laugh: 4.5,
+              text: "I am the cheap ones.",
+              subversion: {
+                from: "A brand rivalry - he is positioning himself against a competitor.",
+                to: "He is the competitor, and he is plural, because he is a clone.",
+                axis: "rivalry to self-identification",
+                mechanism: "The grammar does the work. 'I am the cheap ones' is wrong on purpose and plants the clone reveal three minutes early - principle 15."
+              },
+              delivery: "Do not lean on 'ones'. Let the plural pass almost unnoticed. It gets cashed in segment four.",
+              qa: ["plant-handle"]
+            },
+            {
+              id: "b4-cheap-tag",
+              role: "tag",
+              laugh: 3,
+              optional: true,
+              text: "All of me. Every single one.",
+              note: "Cuttable. It underlines the plural, which may be stronger left alone."
+            }
+          ]
+        },
+        {
+          id: "curvature",
+          title: "Abnormal curvature",
+          intent: "A real law, quoted accurately. The laugh is in the absence of a definition, not in EU-bashing - refuse the obvious take out loud.",
+          beats: [
+            {
+              id: "b4-reg",
+              role: "setup",
+              text: "There is a European regulation. Two two five seven, stroke, ninety-four. It governs how we are allowed to look, and it states that a banana must be free from - and this is the legal wording - abnormal curvature.",
+              expectations: [
+                { label: "He will mock the EU for absurd over-regulation.", pct: 74 },
+                { label: "He will reveal the standard is never actually defined.", pct: 18 },
+                { label: "He will say he personally failed it.", pct: 8 }
+              ],
+              qa: ["specific", "concentrate"],
+              note: "EC 2257/94 is real, applies to green bananas at wholesale, and genuinely never defines the phrase. Quoting the number is principle 5 doing structural work - it buys belief."
+            },
+            {
+              id: "b4-undefined",
+              role: "punch",
+              laugh: 4.5,
+              text: "It does not define abnormal.",
+              subversion: {
+                from: "Bureaucratic over-specification - a comically precise rule.",
+                to: "A standard with no content that he is still graded against every day.",
+                axis: "over-specified to unspecified",
+                mechanism: "The joke is the hole in the law, not the law. Refuses the obvious Brussels take - principle 7."
+              }
+            },
+            {
+              id: "b4-guess",
+              role: "tag",
+              laugh: 4,
+              pauseBefore: 0.4,
+              text: "So we guess.",
+              delivery: "Three words. Do not add to them.",
+              note: "The shortest possible tag on the axis the punch opened. This is the shape v3 never once produced."
+            },
+            {
+              id: "b4-guess2",
+              role: "tag",
+              laugh: 3,
+              optional: true,
+              text: "Every morning. In the box. Guessing.",
+              note: "Second and last tag in this segment. Cut this first if the set runs long."
+            }
+          ]
+        },
+        {
+          id: "original",
+          title: "I have an original",
+          intent: "The floor of the set. He stops selling for exactly one line, then picks the pitch straight back up. This is where the room finds out what he actually is.",
+          beats: [
+            {
+              id: "b4-seeds",
+              role: "setup",
+              text: "You may have noticed that we do not have seeds. People assume that is something they did for you. A convenience. Something arranged, to make your morning slightly easier.",
+              expectations: [
+                { label: "He will say it was genetically engineered in.", pct: 68 },
+                { label: "He will reveal it is sterility, not convenience.", pct: 24 },
+                { label: "He will make a joke about seeds.", pct: 8 }
+              ],
+              qa: ["concentrate"]
+            },
+            {
+              id: "b4-cant",
+              role: "punch",
+              laugh: 5,
+              pauseBefore: 0.6,
+              text: "We cannot.",
+              subversion: {
+                from: "Seedlessness is a product feature, arranged for the customer.",
+                to: "Seedlessness is infertility. Nobody arranged it for anybody.",
+                axis: "convenience to incapacity",
+                mechanism: "Two words - the shortest line in the set - and it recontextualises the entire pitch behind it. Principle 24, landed on 'cannot'."
+              },
+              delivery: "Drop the salesman for this line only. Do not play it sad. State it, then resume selling as if nothing happened.",
+              qa: ["punch-word-last", "truth-plus-pain"]
+            },
+            {
+              id: "b4-cutting",
+              role: "setup",
+              text: "Every banana you have ever eaten was a cutting taken off another banana. Not a child. A cutting. We do not have a family tree. We have a photocopier.",
+              expectations: [
+                { label: "He will do a clone joke about them all being identical.", pct: 70 },
+                { label: "He will get sincerely sad about it.", pct: 20 },
+                { label: "He will name the original.", pct: 10 }
+              ]
+            },
+            {
+              id: "b4-original",
+              role: "punch",
+              laugh: 4.5,
+              text: "I do not have parents. I have an original.",
+              subversion: {
+                from: "He is one of many identical copies - the clone joke we were expecting.",
+                to: "Copies imply a source, and the source is a specific individual who exists.",
+                axis: "mass production to a single ancestor",
+                mechanism: "Turns an abstract fact about cloning into one being with an address."
+              },
+              callbackTo: "b4-cheap"
+            },
+            {
+              id: "b4-derby",
+              role: "tag",
+              laugh: 4,
+              text: "He is still alive. In Derbyshire.",
+              note: "True, and that is why it lands. Every Cavendish descends from plants raised at Chatsworth House in Derbyshire in the 1830s. Principle 5 - the proper noun is doing the work, not decorating it."
+            }
+          ]
+        },
+        {
+          id: "close",
+          title: "TR4, and the close",
+          intent: "The threat, the replacement, and a man who will not stop selling through either. The sincerity is real and it is also a technique.",
+          beats: [
+            {
+              id: "b4-fungus",
+              role: "setup",
+              text: "There is a fungus in the soil. It is called TR4. It has been walking towards us my entire life, one field at a time, and last year it reached Ecuador.",
+              expectations: [
+                { label: "He will explain the science of the disease.", pct: 62 },
+                { label: "He will connect it back to them all being identical.", pct: 30 },
+                { label: "He will joke about dying.", pct: 8 }
+              ],
+              qa: ["specific"],
+              risk: "TR4 reaching Ecuador is recent and true. If the room does not know what Ecuador is to bananas, the line still works as dread - do not explain it."
+            },
+            {
+              id: "b4-identical",
+              role: "punch",
+              laugh: 4.5,
+              text: "We are all identical. So it only has to learn how to kill one of us.",
+              subversion: {
+                from: "A farming problem, at a distance, happening to an industry.",
+                to: "A design flaw that is also a death sentence, and he is inside it.",
+                axis: "agriculture to extinction by uniformity",
+                mechanism: "The Cavendish fact finally spent as a punchline instead of delivered as a lecture. In v3 this was a forty-five word setup that explained itself; here it is thirteen words and explains nothing."
+              },
+              callbackTo: "b4-original"
+            },
+            {
+              id: "b4-has",
+              role: "tag",
+              laugh: 4.5,
+              pauseBefore: 0.8,
+              text: "It has.",
+              delivery: "Two words. Let the pause before it do the work, and do not fill the pause after.",
+              note: "The hardest tag in the set and the shortest. This is the shape principle 13 is actually describing."
+            },
+            {
+              id: "b4-qcav",
+              role: "setup",
+              text: "Next year they are releasing a version of me that survives it. They added one gene. It looks the same. It tastes the same. It is on shelves in twenty twenty-seven.",
+              expectations: [
+                { label: "He will be bitter about being replaced.", pct: 66 },
+                { label: "He will endorse it, because he is still selling.", pct: 26 },
+                { label: "He will tell us its name.", pct: 8 }
+              ]
+            },
+            {
+              id: "b4-name",
+              role: "punch",
+              laugh: 4,
+              text: "It is called QCAV-four.",
+              subversion: {
+                from: "A successor - the next generation, carrying something forward.",
+                to: "A product code standing where a name should be.",
+                axis: "replacement to depersonalisation",
+                mechanism: "The real designation does the work. Say the digits and do not editorialise."
+              },
+              note: "QCAV-4 is the actual GM TR4-resistant Cavendish approved for commercialisation, targeted at shelves around 2027."
+            },
+            {
+              id: "b4-spot",
+              role: "actout",
+              laugh: 4.5,
+              pauseBefore: 0.5,
+              text: "(you turn your side to the room and offer it, sincerely, the way you would show a scar) You want natural? Look at this. This is a real spot.",
+              delivery: "Hold it out. Wait until it is uncomfortable, then hold it two seconds longer. Do not smile.",
+              qa: ["show-dont-report"]
+            },
+            {
+              id: "b4-buy",
+              role: "punch",
+              laugh: 4,
+              text: "Buy me now.",
+              subversion: {
+                from: "The vulnerability was real and earns him sympathy.",
+                to: "The vulnerability was the close, and it always was.",
+                axis: "sincerity to sales technique",
+                mechanism: "Reveals the whole set as a pitch, retroactively. Land on 'now'."
+              }
+            },
+            {
+              id: "b4-sincere",
+              role: "sincere",
+              pauseBefore: 0.6,
+              text: "I do not need you to love me. I need you to pick me up, put me in the trolley, and not put me back.",
+              qa: ["sincerity-needs-puncture"]
+            },
+            {
+              id: "b4-button",
+              role: "punch",
+              laugh: 5,
+              pauseBefore: 0.7,
+              text: "I go off in four days.",
+              subversion: {
+                from: "A genuine plea to be wanted - the mask finally off.",
+                to: "A delivery window. The plea had an expiry date printed on it.",
+                axis: "sincerity to shelf life",
+                mechanism: "Punctures the sincere beat with a number, which is the only thing that could puncture it. Principle 23, landed on 'days'."
+              },
+              delivery: "This is the last line. Do not put a thank-you inside it. Say it, hold, then leave."
+            }
+          ]
+        }
+      ]
     }
   ]
 });
